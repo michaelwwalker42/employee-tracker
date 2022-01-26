@@ -6,7 +6,7 @@ USE employees;
 -- create department table
 CREATE TABLE department (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    NAME VARCHAR(30) NOT NULL
+    name VARCHAR(30) NOT NULL
 );
 
 -- create role table
