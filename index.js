@@ -27,36 +27,38 @@ const mainOptions = [
 
 
 const init = () => {
-        console.log(`
+    console.log(`
     ______________________________________
    |                                      |
    |          EMPLOYEE MANAGER            |
    |______________________________________|
  `)
     return inquirer.prompt(mainOptions)
-    .then(function (response) {
-        let choice = response.options;
-        if (choice === 'View all departments') {
-            allDepartments();            
-        }
-        if (choice === 'View all roles') {
-            allRoles();            
-        }
-        if (choice === 'View all employees') {
-            allEmployees();            
-        }
-        if (choice === 'Add a department') {
-            addDepartment();            
-        }
-        if (choice === 'Add a role') {
-            addRole();            
-        }
-        if (choice === 'Add an employee') {
-            addEmployee();            
-        }
-        if (choice === 'Update an employee role') {
-            updateRole();
-        }                     
-    })
+        .then(function (response) {
+            let choice = response.options;
+            switch (choice) {
+                case 'View all departments':
+                    allDepartments();
+                    break;
+                case 'View all roles':
+                    allRoles();
+                    break;
+                case 'View all employees':
+                    allEmployees();
+                    break;
+                case 'Add a department':
+                    addDepartment();
+                    break;
+                case 'Add a role':
+                    addRole();
+                    break;
+                case 'Add an employee':
+                    addEmployee();
+                    break;
+                case 'Update an employee role':
+                    addEmployee();
+                    break;
+            }
+        });
 };
 
