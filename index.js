@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const db = require('./db/connection');
+const viewDepartments = require('./utils/viewDepartments');
+
 
 db.connect(err => {
     if (err) throw err;
@@ -38,13 +40,13 @@ const init = () => {
             let choice = response.options;
             switch (choice) {
                 case 'View all departments':
-                    allDepartments();
+                    viewDepartments();
                     break;
                 case 'View all roles':
-                    allRoles();
+                    viewRoles();
                     break;
                 case 'View all employees':
-                    allEmployees();
+                    viewEmployees();
                     break;
                 case 'Add a department':
                     addDepartment();
@@ -56,7 +58,7 @@ const init = () => {
                     addEmployee();
                     break;
                 case 'Update an employee role':
-                    addEmployee();
+                    updateEmployee();
                     break;
             }
         });
