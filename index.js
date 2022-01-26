@@ -2,6 +2,12 @@ const inquirer = require('inquirer');
 const cTable = require('console.table');
 const db = require('./db/connection');
 
+db.connect(err => {
+    if (err) throw err;
+    console.log('Connected to employee database.');
+    init();
+});
+
 const mainOptions = [
     {
         type: 'list',
@@ -54,4 +60,3 @@ const init = () => {
     })
 };
 
-init();
