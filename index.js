@@ -1,9 +1,16 @@
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const db = require('./db/connection');
-const viewDepartments = require('./utils/viewDepartments');
-const viewRoles = require('./utils/viewRoles');
-const viewEmployees = require('./utils/viewEmployees');
+// utility modules
+const { 
+    viewDepartments,
+    viewRoles,
+    viewEmployees,
+    addDepartment,
+    addEmployee,
+    addRole,
+    updateEmployee
+ } = require('./utils');
 
 
 
