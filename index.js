@@ -1,25 +1,6 @@
 const inquirer = require('inquirer');
-const cTable = require('console.table');
-const db = require('./db/connection');
-// utility modules
-const { 
-    viewDepartments,
-    viewRoles,
-    viewEmployees,
-    addDepartment,
-    addEmployee,
-    addRole,
-    updateEmployee
- } = require('./utils');
-
-
-
-
-db.connect(err => {
-    if (err) throw err;
-    console.log('Connected to employee database.');
-    init();
-});
+require('console.table');
+const db = require('./db');
 
 const mainOptions = [
     {
@@ -33,20 +14,25 @@ const mainOptions = [
             'Add a department',
             'Add a role',
             'Add an employee',
-            'Update an employee role']
+            'Update an employee role',
+            'Quit']
     }
 ]
 
+init()
 
-
-const init = () => {
+function init() {
     console.log(`
     ______________________________________
    |                                      |
    |          EMPLOYEE MANAGER            |
    |______________________________________|
  `)
-    return inquirer.prompt(mainOptions)
+    prompts()
+};
+
+function prompts() {
+    inquirer.prompt(mainOptions)
         .then(function (response) {
             let choice = response.options;
             switch (choice) {
@@ -71,7 +57,59 @@ const init = () => {
                 case 'Update an employee role':
                     updateEmployee();
                     break;
+                default:
+                    process.exit()
             }
         });
 };
 
+
+function viewDepartments() {
+    db.findDepartments().then(([depts]) => {
+        console.table(depts)
+    }).then(() => prompts())
+};
+
+function viewRoles() {
+    db.findRoles().then(([roles]) => {
+        console.table(roles)
+    }).then(() => prompts())
+};
+
+function viewEmployees() {
+    db.findEmployees().then(([Emps]) => {
+        console.table(Emps)
+    }).then(() => prompts())
+};
+
+function addRole() {
+    // first find departments and map each into an object with id and name
+    db.findDepartments().then(([depts]) => {
+        const departments = depts.map(({ id, name }) => ({
+            name: name,
+            value: id
+        }));
+
+        inquirer.prompt([
+            {
+                type: 'input',
+                name: 'title',
+                message: 'What is the name of the role?'
+            },
+            {
+                type: 'list',
+                // use the mapped departments
+                choices: departments,
+                name: 'department_id',
+                message: 'What department does this role belong to?'
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'What is the salary of this role?'
+            }
+        ]).then((answers) => {
+            db.createRole(answers).then(() => prompts())
+        })
+    })
+};

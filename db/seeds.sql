@@ -15,17 +15,18 @@ VALUES
 ('Lawyer', 150000, 4),
 ('Software Engineer', 120000, 1),
 ('Account Manager', 160000, 3),
-('Legal Team Lead', 250000, 4);
+('Legal Team Lead', 250000, 4),
+('Sales Team Lead', 120000, 2);
 
 INSERT INTO employee
-(first_name,last_name,role_id)
+(first_name,last_name,role_id, manager_id)
 VALUES
-('Mike', 'Chan', 1),
-('Ashley', 'Rodriguez', 2),
-('Kevin', 'Tupik', 5),
-('Kunal', 'Singh', 6),
-('Malia', 'Brown', 3),
-('Sarah', 'Lourd', 7),
-('Tom', 'Allen', 4);
-
+('Ashley', 'Rodriguez', 2, null),
+('Kevin', 'Tupik', 5, 1),
+('Kunal', 'Singh', 6, null),
+('Malia', 'Brown', 3, 3),
+('Sarah', 'Lourd', 7, null),
+('Tom', 'Allen', 4, 5),
+('Tim', 'Allen', 8, null),
+('Mike', 'Chan', 1, 7);
 
