@@ -188,7 +188,6 @@ function updateEmployee() {
                 choices: employees
             }
         ]).then(choice => {
-            console.log(choice);
             const empId = choice.id;
             const roleInfo = [];
             roleInfo.push(empId);
@@ -208,6 +207,8 @@ function updateEmployee() {
                 ])
                     .then(choice => {
                         roleInfo.push(choice.role);
+                        // reverse the role info so the role id is first in the array when it passes to db.updateRole
+                        roleInfo.reverse();
                         db.updateRole(roleInfo).then(() => prompts());
                     })
             })
