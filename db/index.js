@@ -1,5 +1,5 @@
 const db = require('./connection');
-
+// this DB class contains the functions for the MySQL queries
 class DB {
     constructor(db) {
         this.db = db
@@ -42,6 +42,9 @@ class DB {
     }
     empsByMgr() {
         return this.db.promise().query("SELECT CONCAT(manager.first_name, ' ', manager.last_name) As Manager, CONCAT(employee.first_name, ' ', employee.last_name) AS Employee FROM employee INNER JOIN employee manager ON employee.manager_id = manager.id ORDER By manager.last_name ASC;")
+    }
+    deleteDepts(dept) {
+        return this.db.promise().query("DELETE FROM department WHERE  department.id = ?", dept)
     }
 };
 

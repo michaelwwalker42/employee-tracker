@@ -18,6 +18,7 @@ const mainOptions = [
             'Add an employee',
             'Update an employee role',
             'Update an employee manager',
+            'Remove a department',
             'Quit']
     }
 ]
@@ -68,6 +69,9 @@ function prompts() {
                     break;
                 case 'View employees by manager':
                     viewByManager();
+                    break;
+                case 'Remove a department':
+                    deleteDepts();
                     break;
                 default:
                     process.exit()
@@ -271,6 +275,28 @@ function updateManager() {
         })
     })
 };
+
+function deleteDepts() {
+    db.findDepartments().then(([deptsArray]) => {
+        // get department name and id to show in inquirer prompt
+        const depts = deptsArray.map(({ id, name }) => ({
+            name: name,
+            value: id
+        }))
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'department_id',
+                message: 'Which department do you want to remove?',
+                choices: depts
+            }
+        ]).then(answer => {
+            const department = answer.department_id;
+            db.deleteDepts(department).then(() => prompts())
+        })
+    })
+};
+
 
 
 
