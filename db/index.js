@@ -37,7 +37,10 @@ class DB {
     changeManager(emp) {
         return this.db.promise().query("UPDATE employee SET manager_id = ? WHERE id = ?", emp)
     }
-
+    empsByDepts() {
+        return this.db.promise().query("SELECT department.name AS Department, CONCAT(employee.first_name, ' ', employee.last_name) AS Name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY department.name ASC;")
+    }
 };
 
 module.exports = new DB(db)
+
