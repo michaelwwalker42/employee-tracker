@@ -34,6 +34,9 @@ class DB {
     updateRole(emp) {
         return this.db.promise().query("UPDATE employee SET role_id = ? WHERE id = ?", emp)
     }
+    changeManager(emp) {
+        return this.db.promise().query("UPDATE employee SET manager_id = ? WHERE id = ?", emp)
+    }
 
 };
 

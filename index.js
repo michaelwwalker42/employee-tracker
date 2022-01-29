@@ -15,6 +15,7 @@ const mainOptions = [
             'Add a role',
             'Add an employee',
             'Update an employee role',
+            'Update an employee manager',
             'Quit']
     }
 ]
@@ -56,6 +57,9 @@ function prompts() {
                     break;
                 case 'Update an employee role':
                     updateEmployee();
+                    break;
+                case 'Update an employee manager':
+                    updateManager();
                     break;
                 default:
                     process.exit()
@@ -215,4 +219,39 @@ function updateEmployee() {
         })
     })
 };
+
+function updateManager() {
+
+    db.findEmployees().then(([empArray]) => {
+        const employees = empArray.map(({ id, first_name, last_name }) => ({
+            name: first_name + " " + last_name,
+            value: id
+        }))
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'id',
+                message: "Which employee would you like to update?",
+                choices: employees
+            },
+            {
+                type: 'list',
+                choices: employees,
+                name: 'manager_id',
+                message: 'Who is the new manager of the employee?'
+            }
+        ]).then(answers => {
+            const empId = answers.id;
+            const newMgrId = answers.manager_id;
+            const mgrInfo = [];
+            mgrInfo.push(newMgrId)
+            mgrInfo.push(empId);
+            // console.log(mgrInfo)
+            db.changeManager(mgrInfo).then(() => prompts())
+        })
+    })
+};
+
+
+
 
