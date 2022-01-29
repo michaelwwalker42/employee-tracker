@@ -12,6 +12,7 @@ const mainOptions = [
             'View all roles',
             'View all employees',
             'View employees by department',
+            'View employees by manager',
             'Add a department',
             'Add a role',
             'Add an employee',
@@ -65,6 +66,9 @@ function prompts() {
                 case 'View employees by department':
                     viewByDepartment();
                     break;
+                case 'View employees by manager':
+                    viewByManager();
+                    break;
                 default:
                     process.exit()
             }
@@ -92,6 +96,12 @@ function viewEmployees() {
 
 function viewByDepartment() {
     db.empsByDepts().then(([emps]) => {
+        console.table(emps)
+    }).then(() => prompts())
+};
+
+function viewByManager() {
+    db.empsByMgr().then(([emps]) => {
         console.table(emps)
     }).then(() => prompts())
 };

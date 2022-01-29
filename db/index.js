@@ -40,6 +40,9 @@ class DB {
     empsByDepts() {
         return this.db.promise().query("SELECT department.name AS Department, CONCAT(employee.first_name, ' ', employee.last_name) AS Name FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id ORDER BY department.name ASC;")
     }
+    empsByMgr() {
+        return this.db.promise().query("SELECT CONCAT(manager.first_name, ' ', manager.last_name) As Manager, CONCAT(employee.first_name, ' ', employee.last_name) AS Employee FROM employee INNER JOIN employee manager ON employee.manager_id = manager.id ORDER By manager.last_name ASC;")
+    }
 };
 
 module.exports = new DB(db)
