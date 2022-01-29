@@ -93,7 +93,7 @@ function addRole() {
         inquirer.prompt([
             {
                 type: 'input',
-                name: 'title',
+                name: 'job_title',
                 message: 'What is the name of the role?'
             },
             {
@@ -113,3 +113,55 @@ function addRole() {
         })
     })
 };
+
+function addDepartment() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'What is the name of the department?'
+        }
+    ]).then((answers) => {
+        db.createDepartment(answers).then(() => prompts())
+    })
+
+};
+
+function addEmployee() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message: 'What is the first name of the employee?'
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message: 'What is the last name of the employee?'
+        }
+    ]).then((answers) => {
+        const employee = [answers.first_name, answers.last_name]
+        db.findRoles().then(([rolesArray]) => {
+            // use map to get id and job_title from role table
+            const roles = rolesArray.map(({ id, job_title }) => ({
+                name: job_title,
+                value: id
+            }))
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    // use the mapped roles
+                    choices: roles,
+                    name: 'role_id',
+                    message: 'What is the role of the employee?'
+                }
+            ]).then((answer) => {
+                employee.push(answer.role_id);
+                console.log(employee);
+            })
+        })        
+    })
+}
+
+
+
