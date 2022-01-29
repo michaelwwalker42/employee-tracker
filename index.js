@@ -173,9 +173,46 @@ function addEmployee() {
     })
 };
 
+function updateEmployee() {
 
-
-
-
-
+    db.findEmployees().then(([empArray]) => {
+        const employees = empArray.map(({ id, first_name, last_name }) => ({
+            name: first_name + " " + last_name,
+            value: id
+        }))
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'id',
+                message: 'Which employee would you like to update?',
+                choices: employees
+            }
+        ]).then(choice => {
+            const empId = choice;
+            // console.log(empId);
+            const roleInfo = [];
+            roleInfo.push(empId);
+            console.log(roleInfo);
+            db.findRoles().then(([rolesArray]) => {
+                // use map to get id and job_title from role table
+                const roles = rolesArray.map(({ id, job_title }) => ({
+                    name: job_title,
+                    value: id
+                }));
+                inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'role',
+                        message: 'What is the new role of the employee?',
+                        choices: roles
+                    }
+                ])
+                    .then(roleId => {
+                        roleInfo.push(roleId);
+                        console.log(roleInfo);
+                    })
+            })
+        })
+    })
+};
 
