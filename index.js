@@ -128,40 +128,54 @@ function addDepartment() {
 };
 
 function addEmployee() {
-    inquirer.prompt([
-        {
-            type: 'input',
-            name: 'first_name',
-            message: 'What is the first name of the employee?'
-        },
-        {
-            type: 'input',
-            name: 'last_name',
-            message: 'What is the last name of the employee?'
-        }
-    ]).then((answers) => {
-        const employee = [answers.first_name, answers.last_name]
-        db.findRoles().then(([rolesArray]) => {
-            // use map to get id and job_title from role table
-            const roles = rolesArray.map(({ id, job_title }) => ({
-                name: job_title,
+    db.findRoles().then(([rolesArray]) => {
+        // use map to get id and job_title from role table
+        const roles = rolesArray.map(({ id, job_title }) => ({
+            name: job_title,
+            value: id
+        }))
+        // find managers then use map to get manager names and id's
+        db.findManagers().then(([managersArray]) => {
+            const managers = managersArray.map(({ id, manager }) => ({
+                name: manager,
                 value: id
             }))
+
             inquirer.prompt([
                 {
+                    type: 'input',
+                    name: 'first_name',
+                    message: 'What is the first name of the employee?'
+                },
+                {
+                    type: 'input',
+                    name: 'last_name',
+                    message: 'What is the last name of the employee?'
+                },
+                {
                     type: 'list',
-                    // use the mapped roles
+                    // use the mapped roles from roles array
                     choices: roles,
                     name: 'role_id',
                     message: 'What is the role of the employee?'
+                },
+                {
+                    type: 'list',
+                    // use the mapped managers from managers array
+                    choices: managers,
+                    name: 'manager_id',
+                    message: 'Who is the manager of the employee?'
                 }
-            ]).then((answer) => {
-                employee.push(answer.role_id);
-                console.log(employee);
+            ]).then((employee) => {
+                db.createEmployee(employee).then(() => prompts());
             })
-        })        
+        })
     })
-}
+};
+
+
+
+
 
 
 
