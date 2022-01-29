@@ -188,11 +188,10 @@ function updateEmployee() {
                 choices: employees
             }
         ]).then(choice => {
-            const empId = choice;
-            // console.log(empId);
+            console.log(choice);
+            const empId = choice.id;
             const roleInfo = [];
             roleInfo.push(empId);
-            console.log(roleInfo);
             db.findRoles().then(([rolesArray]) => {
                 // use map to get id and job_title from role table
                 const roles = rolesArray.map(({ id, job_title }) => ({
@@ -207,9 +206,9 @@ function updateEmployee() {
                         choices: roles
                     }
                 ])
-                    .then(roleId => {
-                        roleInfo.push(roleId);
-                        console.log(roleInfo);
+                    .then(choice => {
+                        roleInfo.push(choice.role);
+                        db.updateRole(roleInfo).then(() => prompts());
                     })
             })
         })

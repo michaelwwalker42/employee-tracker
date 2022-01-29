@@ -31,8 +31,8 @@ class DB {
     createEmployee(emp) {
         return this.db.promise().query("INSERT INTO employee SET ?", emp)
     }
-    modifyEmployee(emp) {
-
+    updateRole(emp) {
+        return this.db.promise().query("UPDATE employee SET role_id = ? WHERE id = ?", emp)
     }
 
 };
