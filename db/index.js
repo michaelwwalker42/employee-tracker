@@ -14,7 +14,7 @@ class DB {
     }
 
     findEmployees() {
-        return this.db.promise().query("SELECT employee.id, employee.first_name, employee.last_name, role.job_title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager  FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON employee.manager_id = manager.id;")
+        return this.db.promise().query("SELECT employee.id, employee.first_name, employee.last_name, role.job_title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager  FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON employee.manager_id = manager.id ORDER BY employee.last_name ASC;")
     }
     findManagers() {
         return this.db.promise().query("SELECT manager.id, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee INNER JOIN employee manager ON employee.manager_id = manager.id;")
