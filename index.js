@@ -8,24 +8,26 @@ const mainOptions = [
         name: 'options',
         message: 'What would you like to do?',
         choices: [
-            'View all departments',
-            'View all roles',
             'View all employees',
             'View employees by department',
             'View employees by manager',
-            'Add a department',
-            'Add a role',
-            'Add an employee',
             'Update an employee role',
             'Update an employee manager',
-            'Remove a department',
-            'Remove a role',
+            'Add an employee',
             'Remove an employee',
+            'View all roles',
+            'Add a role',
+            'Remove a role',
+            'View all departments',
+            'Add a department',
+            'Remove a department',
+            'View budget for a department',
+            'View budget for all departments',
             'Quit']
     }
 ]
 
-init()
+
 
 function init() {
     console.log(`
@@ -80,6 +82,12 @@ function prompts() {
                     break;
                 case 'Remove an employee':
                     deleteEmployee();
+                    break;
+                case 'View budget for a department':
+                    viewBudget();
+                    break;
+                case 'View budget for all departments':
+                    viewAllBudgets();
                     break;
                 default:
                     process.exit()
@@ -145,7 +153,7 @@ function addRole() {
                 message: 'What is the salary of this role?'
             }
         ]).then((answers) => {
-            db.createRole(answers).then(() => prompts())
+            db.createRole(answers).then(() => viewRoles())
         })
     })
 };
@@ -158,7 +166,7 @@ function addDepartment() {
             message: 'What is the name of the department?'
         }
     ]).then((answers) => {
-        db.createDepartment(answers).then(() => prompts())
+        db.createDepartment(answers).then(() => viewDepartments())
     })
 
 };
@@ -203,7 +211,7 @@ function addEmployee() {
                     message: 'Who is the manager of the employee?'
                 }
             ]).then((employee) => {
-                db.createEmployee(employee).then(() => prompts());
+                db.createEmployee(employee).then(() => viewEmployees());
             })
         })
     })
@@ -245,7 +253,7 @@ function updateEmployee() {
                         roleInfo.push(choice.role);
                         // reverse the role info so the role id is first in the array when it passes to db.updateRole
                         roleInfo.reverse();
-                        db.updateRole(roleInfo).then(() => prompts());
+                        db.updateRole(roleInfo).then(() => viewEmployees());
                     })
             })
         })
@@ -279,7 +287,7 @@ function updateManager() {
             mgrInfo.push(newMgrId)
             mgrInfo.push(empId);
             // console.log(mgrInfo)
-            db.changeManager(mgrInfo).then(() => prompts())
+            db.changeManager(mgrInfo).then(() => viewByManager())
         })
     })
 };
@@ -300,7 +308,7 @@ function deleteDepts() {
             }
         ]).then(answer => {
             const department = answer.department_id;
-            db.deleteDepts(department).then(() => prompts())
+            db.deleteDepts(department).then(() => viewDepartments())
         })
     })
 };
@@ -346,6 +354,43 @@ function deleteEmployee() {
         })
     })
 };
+
+function viewBudget() {
+    db.findDepartments().then(([deptsArray]) => {
+        const departments = deptsArray.map(({ id, name }) => ({
+            name: name,
+            value: id
+        }))
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'id',
+                message: "Which department budget would you like to view?",
+                choices: departments
+            }
+        ]).then(answer => {
+            const department = answer.id;            
+            db.deptBudget(department).then(([budget]) => {
+                console.table(budget)
+            }).then(() => prompts())
+        })
+    })
+};
+
+function viewAllBudgets() {
+    db.allBudget().then(([budgets]) => {
+        console.table(budgets)
+    }).then(() => prompts())
+};
+
+init()
+
+
+
+
+
+
+
 
 
 

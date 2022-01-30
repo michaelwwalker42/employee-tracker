@@ -46,11 +46,19 @@ class DB {
     deleteDepts(dept) {
         return this.db.promise().query("DELETE FROM department WHERE  department.id = ?", dept)
     }
-    deleteRoles(role){
+    deleteRoles(role) {
         return this.db.promise().query("DELETE FROM role WHERE role.id = ?", role)
     }
     deleteEmployees(emp) {
         return this.db.promise().query("DELETE FROM employee WHERE employee.id = ?", emp)
+    }
+    // single department budget query
+    deptBudget(dept) {
+        return this.db.promise().query("SELECT department_id AS id, department.name AS department, SUM(salary) AS Budget FROM role LEFT JOIN department ON role.department_id = department.id WHERE department.id = ?", dept)
+    }
+    // all budgets by department query
+    allBudget() {
+        return this.db.promise().query("SELECT department_id AS id, department.name AS department, SUM(salary) AS Budget  FROM role INNER JOIN department ON role.department_id = department.id GROUP BY role.department_id;")
     }
 };
 
