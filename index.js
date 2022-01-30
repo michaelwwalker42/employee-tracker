@@ -138,7 +138,15 @@ function addRole() {
             {
                 type: 'input',
                 name: 'job_title',
-                message: 'What is the name of the role?'
+                message: 'What is the name of the role?',
+                validate: roleInput => {
+                    if (roleInput !== '') {
+                        return true;
+                    } else {
+                        console.log(' Please enter a name for the role.');
+                        return false;
+                    }
+                }
             },
             {
                 type: 'list',
@@ -150,7 +158,15 @@ function addRole() {
             {
                 type: 'input',
                 name: 'salary',
-                message: 'What is the salary of this role?'
+                message: 'What is the salary of this role?',
+                validate: salaryInput => {
+                    if (isNaN(salaryInput) || salaryInput === '') {
+                        console.log(" You must enter a number for the salary.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
             }
         ]).then((answers) => {
             db.createRole(answers).then(() => viewRoles())
@@ -163,7 +179,15 @@ function addDepartment() {
         {
             type: 'input',
             name: 'name',
-            message: 'What is the name of the department?'
+            message: 'What is the name of the department?',
+            validate: deptInput => {
+                if (deptInput !== '') {
+                    return true;
+                } else {
+                    console.log(' Please enter a name for the department.');
+                    return false;
+                }
+            }
         }
     ]).then((answers) => {
         db.createDepartment(answers).then(() => viewDepartments())
@@ -189,12 +213,29 @@ function addEmployee() {
                 {
                     type: 'input',
                     name: 'first_name',
-                    message: 'What is the first name of the employee?'
+                    message: 'What is the first name of the employee?',
+                    validate: nameInput => {
+                        if (nameInput !== '') {
+                            return true;
+                        } else {
+                            console.log(' Please enter a first name.');
+                            return false;
+                        }
+                    }
                 },
+
                 {
                     type: 'input',
                     name: 'last_name',
-                    message: 'What is the last name of the employee?'
+                    message: 'What is the last name of the employee?',
+                    validate: nameInput => {
+                        if (nameInput !== '') {
+                            return true;
+                        } else {
+                            console.log(' Please enter a last name.');
+                            return false;
+                        }
+                    }
                 },
                 {
                     type: 'list',
@@ -369,7 +410,7 @@ function viewBudget() {
                 choices: departments
             }
         ]).then(answer => {
-            const department = answer.id;            
+            const department = answer.id;
             db.deptBudget(department).then(([budget]) => {
                 console.table(budget)
             }).then(() => prompts())
