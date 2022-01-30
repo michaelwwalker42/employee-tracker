@@ -10,7 +10,7 @@ class DB {
     }
 
     findRoles() {
-        return this.db.promise().query('SELECT role.id,role.job_title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id;')
+        return this.db.promise().query('SELECT role.id,role.job_title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id ORDER BY department.name ASC;')
     }
 
     findEmployees() {
