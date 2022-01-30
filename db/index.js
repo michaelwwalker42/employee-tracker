@@ -49,6 +49,9 @@ class DB {
     deleteRoles(role){
         return this.db.promise().query("DELETE FROM role WHERE role.id = ?", role)
     }
+    deleteEmployees(emp) {
+        return this.db.promise().query("DELETE FROM employee WHERE employee.id = ?", emp)
+    }
 };
 
 module.exports = new DB(db)

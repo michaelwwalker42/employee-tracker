@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-const { delelteRoles } = require('./db');
 require('console.table');
 const db = require('./db');
 
@@ -21,6 +20,7 @@ const mainOptions = [
             'Update an employee manager',
             'Remove a department',
             'Remove a role',
+            'Remove an employee',
             'Quit']
     }
 ]
@@ -77,6 +77,9 @@ function prompts() {
                     break;
                 case 'Remove a role':
                     deleteRoles();
+                    break;
+                case 'Remove an employee':
+                    deleteEmployee();
                     break;
                 default:
                     process.exit()
@@ -322,6 +325,29 @@ function deleteRoles() {
         })
     })
 };
+
+function deleteEmployee() {
+
+    db.findEmployees().then(([empArray]) => {
+        const employees = empArray.map(({ id, first_name, last_name }) => ({
+            name: first_name + " " + last_name,
+            value: id
+        }))
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'id',
+                message: "Which employee would you like to remove?",
+                choices: employees
+            }
+        ]).then(answer => {
+            const employee = answer.id;
+            db.deleteEmployees(employee).then(() => viewEmployees())
+        })
+    })
+};
+
+
 
 
 
