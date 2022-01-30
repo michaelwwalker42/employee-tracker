@@ -27,6 +27,11 @@ VALUES
 ('Malia', 'Brown', 3, 3),
 ('Sarah', 'Lourd', 7, null),
 ('Tom', 'Allen', 4, 5),
-('Tim', 'Allen', 8, null),
-('Mike', 'Chan', 1, 7);
+('Tim', 'Knox', 8, null),
+('Mike', 'Chan', 1, 7),
+('John', 'Fishman', 5, 1),
+('Lisa', 'Watkins', 3, 3),
+('Brandon', 'Adams', 4, 5),
+('Troy', 'Stevens', 1, 7 );
+
 
