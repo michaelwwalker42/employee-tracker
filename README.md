@@ -1,5 +1,8 @@
-# Employee Tracker
+# Employee Tracker (CMS)
   ![license](https://img.shields.io/badge/license-MIT-orange.svg)
+  ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?logo=mysql&logoColor=white)
+  ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?logo=javascript&logoColor=%23F7DF1E)
+  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?logo=node.js&logoColor=white)
 
   ## Description
   A command-line application to manage a company's employee database, using Node.js, Inquirer, and MySQL.
@@ -26,7 +29,7 @@
 
   ## License
 
-  The license for this project is MIT.
+  [License MIT](https://choosealicense.com/licenses/mit/)
 
   ## Questions
   My Github Profile: [michaelwwalker42](https://github.com/michaelwwalker42)  
