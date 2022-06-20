@@ -8,12 +8,17 @@
   A command-line application to manage a company's employee database, using Node.js, Inquirer, and MySQL.
 
   ## Table of Contents
+  * [Technologies](#technologies)
   * [Installation](#installation)
   * [Usage](#usage)
   * [Contributing](#contributing)
   * [License](#license)
   * [Questions](#questions)  
   
+  ## Technologies
+  - MySQL2
+  - Node
+  - Inquirer
   ## Installation
   Clone the Github repo, then make sure you're in the root of the directory, and type `npm install`, or `npm i` in the command-line.
 
